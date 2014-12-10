@@ -2,7 +2,7 @@
 import java.text.SimpleDateFormat
 
 import com.pythian.udf.{CountBusinessDays, CountSaturdays, CountSundays}
-import org.apache.hadoop.io.IntWritable
+import org.apache.hadoop.io.LongWritable
 import com.pythian.udf.DateUtils
 import org.scalatest._
 
@@ -15,8 +15,8 @@ class UDFCountBusinessDaysSpec extends FlatSpec with Matchers {
 
     // 1416999600 is 11 am, November 26, 2014
     // 1417280996 is noon , November 29, 2014
-    val startTimestamp = new IntWritable(1416999600)
-    val endTimestamp = new IntWritable(1417280996)
+    val startTimestamp = new LongWritable(1416999600)
+    val endTimestamp = new LongWritable(1417280996)
 
     businessDays.evaluate(startTimestamp, endTimestamp) should be (2)
   }
@@ -26,8 +26,8 @@ class UDFCountBusinessDaysSpec extends FlatSpec with Matchers {
    // 1232732202  - 2009/01/23
    val businessDays = new CountBusinessDays
 
-    val startTimestamp = new IntWritable(1230786846)
-    val endTimestamp = new IntWritable(1232732202)
+    val startTimestamp = new LongWritable(1230786846)
+    val endTimestamp = new LongWritable(1232732202)
 
     businessDays.evaluate(startTimestamp, endTimestamp) should be (15)
   }
@@ -37,8 +37,8 @@ class UDFCountBusinessDaysSpec extends FlatSpec with Matchers {
     // 1232732202  - 2009/01/23
     val saturdays = new CountSaturdays
 
-    val startTimestamp = new IntWritable(1230786846)
-    val endTimestamp = new IntWritable(1232732202)
+    val startTimestamp = new LongWritable(1230786846)
+    val endTimestamp = new LongWritable(1232732202)
 
     saturdays.evaluate(startTimestamp, endTimestamp) should be (3)
   }
@@ -48,8 +48,8 @@ class UDFCountBusinessDaysSpec extends FlatSpec with Matchers {
     // 1232732202  - 2009/01/23
     val sundays = new CountSundays
 
-    val startTimestamp = new IntWritable(1230786846)
-    val endTimestamp = new IntWritable(1232732202)
+    val startTimestamp = new LongWritable(1230786846)
+    val endTimestamp = new LongWritable(1232732202)
 
     sundays.evaluate(startTimestamp, endTimestamp) should be (3)
   }

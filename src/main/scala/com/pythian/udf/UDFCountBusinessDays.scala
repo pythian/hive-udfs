@@ -6,7 +6,7 @@ package com.pythian.udf
 import java.util.{GregorianCalendar, Calendar, Date}
 
 import org.apache.hadoop.hive.ql.exec.UDF
-import org.apache.hadoop.io.IntWritable
+import org.apache.hadoop.io.LongWritable
 
 object DateUtils {
   // Constant Sets for different types of days
@@ -43,18 +43,6 @@ object DateUtils {
     datesBetweenRecursive(startDate, endDate, List())
   }
 
-  /*def datesBetween(startDate: Calendar, endDate:Calendar): List[Date] = {
-    var datesList: List[Date] = Nil
-    // don't include start and end dates
-    startDate.add(Calendar.DAY_OF_MONTH, 1)
-    endDate.add(Calendar.DAY_OF_MONTH, -1)
-    while (startDate.before(endDate)) {
-      datesList =  startDate.getTime :: datesList
-      startDate.add(Calendar.DAY_OF_MONTH, 1)
-    }
-    datesList
-  }*/
-
   // check if a given day belongs to a given days set
   def isDay(date: Date, daysOfWeek: Set[Int]): Boolean = {
     val cal = new GregorianCalendar()
@@ -72,7 +60,7 @@ object DateUtils {
      Interval is provided as Unix time and is of IntWritable type.
      counter is a function that takes Date as input and returns True or False
    */
-  def countDays(startTimestamp: IntWritable, endTimestamp: IntWritable, counter: Date => Boolean): Int = {
+  def countDays(startTimestamp: LongWritable, endTimestamp: LongWritable, counter: Date => Boolean): Int = {
     if (startTimestamp == null || endTimestamp == null) return 0
     val startDate = DateUtils.getCalendar(startTimestamp.get())
     val endDate = DateUtils.getCalendar(endTimestamp.get())
@@ -84,19 +72,19 @@ object DateUtils {
 
 /* Actual UDF class definitions. Notice that the only difference is the counter function we pass to countDays */
 class CountBusinessDays extends UDF {
-  def evaluate(startTimestamp: IntWritable, endTimestamp: IntWritable): Int = {
+  def evaluate(startTimestamp: LongWritable, endTimestamp: LongWritable): Int = {
     DateUtils.countDays(startTimestamp, endTimestamp, DateUtils.isBusinessDay)
   }
 }
 
 class CountSaturdays extends UDF {
-  def evaluate(startTimestamp: IntWritable, endTimestamp: IntWritable): Int = {
+  def evaluate(startTimestamp: LongWritable, endTimestamp: LongWritable): Int = {
     DateUtils.countDays(startTimestamp, endTimestamp, DateUtils.isSaturday)
   }
 }
 
 class CountSundays extends UDF {
-  def evaluate(startTimestamp: IntWritable, endTimestamp: IntWritable): Int = {
+  def evaluate(startTimestamp: LongWritable, endTimestamp: LongWritable): Int = {
     DateUtils.countDays(startTimestamp, endTimestamp, DateUtils.isSunday)
   }
 }

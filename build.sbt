@@ -6,6 +6,8 @@ organization := "com.pythian"
 
 scalaVersion := "2.11.4"
 
+test in assembly := {}
+
 resolvers += "cloudera"  at "https://repository.cloudera.com/artifactory/cloudera-repos/"
 
 libraryDependencies += "org.apache.hive" % "hive-exec" % "0.12.0" % "provided"
