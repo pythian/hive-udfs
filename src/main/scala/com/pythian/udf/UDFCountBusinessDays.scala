@@ -37,7 +37,8 @@ object DateUtils {
     def datesBetweenRecursive(sDate: Calendar, eDate: Calendar, list: List[Date]): List[Date] = {
       sDate.add(Calendar.DAY_OF_MONTH, 1)
       if (sameDay(sDate, eDate)) list
-      else datesBetweenRecursive(sDate, eDate, sDate.getTime :: list)
+        else if (eDate.before(sDate)) list
+          else datesBetweenRecursive(sDate, eDate, sDate.getTime :: list)
     }
 
     datesBetweenRecursive(startDate, endDate, List())
