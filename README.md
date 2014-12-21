@@ -18,4 +18,4 @@ SELECT count_business_days(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date))
 
 ## Building and testing
 1. To run tests: ```sbt test```
-2. To assembly a jar: ```sbt assembly```
+2. To assemble a jar: ```sbt assembly```
