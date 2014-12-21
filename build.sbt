@@ -1,4 +1,4 @@
-name := "hive-business-days-udf"
+name := "pythian-hive-udfs"
 
 version := "0.1"
 

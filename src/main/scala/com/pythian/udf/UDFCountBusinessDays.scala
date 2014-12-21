@@ -1,5 +1,6 @@
 /* Collection of Hive UDFs to calculate the number of weekdays, Saturdays and Sundays
-   in a given time interval
+   in a given time interval.
+   Author: Danil Zburivsky
 */
 package com.pythian.udf
 
