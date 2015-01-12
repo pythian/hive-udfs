@@ -17,5 +17,6 @@ libraryDependencies ++= Seq(
   "org.apache.hive" % "hive-serde" % "0.12.0" % "provided",
   "org.apache.hadoop" % "hadoop-core" % "1.1.1" % "provided",
   "org.apache.hbase" % "hbase-common" % "0.98.+" % "provided",
+  "org.codehaus.groovy" % "groovy-all" % "1.8.2",
   "org.scalatest" % "scalatest_2.11" % "2.1.6" % "test"
 )
