@@ -1,7 +1,20 @@
-# hive-udfs
+hive-udfs
+=========
+
 Collection of Hive UDFs
 
-## CountBusinessDays, CountSaturdays, CountSundays
+
+Building and testing
+====================
+Check out the code and run 
+
+1. To run tests: ```sbt test```
+2. To assemble a jar: ```sbt assembly```
+
+
+CountBusinessDays, CountSaturdays, CountSundays
+===============================================
+
 These UDFs count the number of full days between two given dates exclusive. For example the number of full business
 days between Monday and Wednesday would be 1. 
 
@@ -16,6 +29,60 @@ CREATE TEMPORARY FUNCTION count_sundays AS 'com.pythian.udf.CountSundays';
 SELECT count_business_days(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) FROM some_table; 
 ```
 
-## Building and testing
-1. To run tests: ```sbt test```
-2. To assemble a jar: ```sbt assembly```
+JsonSplit
+=========
+
+The split UDF accepts a single JSON string containing only an array. In the Hive CLI:
+
+```
+ADD JAR target/JsonSplit-1.0-SNAPSHOT.jar;
+CREATE TEMPORARY FUNCTION json_split AS 'com.pythian.hive.udf.JsonSplitUDF';
+
+CREATE TABLE json_example (json string);
+LOAD DATA LOCAL INPATH 'demo/split_example.json' INTO TABLE json_example;
+
+SELECT ex.* FROM json_example LATERAL VIEW explode(json_split(json_example.json)) ex;
+```
+
+```json_split``` converts the string to the following array of structs, which are exploded into individual records: 
+
+```
+[
+  {
+    row_id:1, 
+    json_string:'1' 
+  },
+  { 
+    row_id:2, 
+    json_string:'2' 
+  }, 
+  {
+    row_id:3, 
+    json_string:'3' 
+  }
+]
+```
+
+You can access the JSON string for the element with the ```json_string``` attribute. The ```json_string``` can be any arbitrary JSON string, including another array or a nested object. ```row_id``` is the position in the array.
+
+
+JsonMap
+=======
+
+The map UDF accepts a flat JSON object (only integer and string values, no arrays or maps) and converts it into a Hive map. The elements of the map don't have to be defined until query-time, and can be accessed with the square bracket syntax ['key'].
+
+```
+ADD JAR target/JsonSplit-1.0-SNAPSHOT.jar;
+CREATE TEMPORARY FUNCTION json_map as 'com.pythian.hive.udf.JsonMapUDF';
+
+CREATE TABLE json_map_example (json string);
+LOAD DATA LOCAL INPATH 'demo/map_example.json' INTO TABLE json_map_example;
+
+SELECT json_map(json)['x'] FROM json_map_example LATERAL VIEW explode(json_split(json_example.json)) ex;
+```
+
+The above converts the JSON string to a map, then pulls out the value for each record's key 'x'.
+
+Contribute new UDFs
+===================
+TODO
