@@ -8,11 +8,10 @@ scalaVersion := "2.11.4"
 
 test in assembly := {}
 
-resolvers += "cloudera"  at "https://repository.cloudera.com/artifactory/cloudera-repos/"
-
-resolvers += "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
-
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+resolvers ++= Seq(
+  "cloudera"  at "https://repository.cloudera.com/artifactory/cloudera-repos/",
+  "Typesafe Repo" at "http://repo.typesafe.com/typesafe/releases/"
+)
 
 libraryDependencies += "org.apache.hive" % "hive-exec" % "0.12.0" % "provided"
 

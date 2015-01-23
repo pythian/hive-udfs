@@ -9,9 +9,7 @@ import scala.collection.mutable.ArrayBuffer
 
 import java.io.IOException
 import java.util.ArrayList
-import java.util.List
 
-import org.apache.hadoop.hive.ql.exec.Description
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException
 import org.apache.hadoop.hive.ql.metadata.HiveException
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF
@@ -85,7 +83,7 @@ class JsonSplitGenericUDF extends GenericUDF {
       val jsonString: String = stringInspector.getPrimitiveJavaObject(args(0).get())
       return splitJsonString(jsonString)
     } catch {
-      case e: HiveException => throw new HiveException(e)
+      case e: IOException => throw new HiveException(e)
       case e: NullPointerException => return null
     }
   }
