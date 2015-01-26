@@ -1,13 +1,9 @@
 
-import com.pythian.hive.udf.JsonSplitGenericUDF
-
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
-
-import org.scalatest._
-import org.scalamock.scalatest.proxy.MockFactory
-
 import java.util.ArrayList
+
+import com.pythian.hive.udf.JsonSplitGenericUDF
+import org.scalamock.scalatest.proxy.MockFactory
+import org.scalatest._
 
 /*
  *
@@ -24,7 +20,7 @@ output:
 *
 */
 
-class JsonSplitUDFSpec extends FlatSpec with Matchers with MockFactory {
+class JsonSplitGenericUDFSpec extends FlatSpec with Matchers with MockFactory {
 
       "JsonSplitGenericUDF" should " do a basic array test" in {
 

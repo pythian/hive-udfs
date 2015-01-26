@@ -2,7 +2,7 @@
    in a given time interval.
    Author: Danil Zburivsky
 */
-package com.pythian.udf
+package com.pythian.hive.udf
 
 import java.util.{GregorianCalendar, Calendar, Date}
 

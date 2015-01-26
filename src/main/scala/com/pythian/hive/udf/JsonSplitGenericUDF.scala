@@ -1,12 +1,5 @@
 package com.pythian.hive.udf
 
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
-
-import org.apache.hadoop.hive.ql.exec.UDF
-import scala.collection.JavaConversions._
-import scala.collection.mutable.ArrayBuffer
-
 import java.io.IOException
 import java.util.ArrayList
 
@@ -14,14 +7,13 @@ import org.apache.hadoop.hive.ql.exec.UDFArgumentException
 import org.apache.hadoop.hive.ql.metadata.HiveException
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF.DeferredObject
-
-import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector.Category
-import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector
+import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory, PrimitiveObjectInspector}
 import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.PrimitiveCategory
-import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory
-import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory
-import org.apache.hadoop.hive.serde2.objectinspector.primitive.StringObjectInspector
+import org.apache.hadoop.hive.serde2.objectinspector.primitive.{PrimitiveObjectInspectorFactory, StringObjectInspector}
+import play.api.libs.json._
+
+import scala.collection.JavaConversions._
 
 
 object JsonUtils {
@@ -65,11 +57,11 @@ class JsonSplitGenericUDF extends GenericUDF {
 
     stringInspector = args(0).asInstanceOf[StringObjectInspector]
 
-    var outputColumns = new ArrayList[String]()
+    val outputColumns: ArrayList[String] = new ArrayList[String]()
     outputColumns.add("row_add")
     outputColumns.add("json_string")
 
-    var outputTypes = new ArrayList[ObjectInspector]()
+    val outputTypes = new ArrayList[ObjectInspector]()
     outputTypes.add(PrimitiveObjectInspectorFactory.javaIntObjectInspector)
     outputTypes.add(PrimitiveObjectInspectorFactory.javaStringObjectInspector)
 
