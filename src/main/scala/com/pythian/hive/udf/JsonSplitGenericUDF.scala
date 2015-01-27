@@ -24,11 +24,14 @@ class JsonSplitGenericUDF extends GenericUDF {
             throw new UDFArgumentException("Usage : json_split(jsonstring) ")
       }
 
+    val rowId = "row_id"
+    val jsonString = "json_string"
+
     stringInspector = args(0).asInstanceOf[StringObjectInspector]
 
     val outputColumns: ArrayList[String] = new ArrayList[String]()
-    outputColumns.add("row_id") //use constants
-    outputColumns.add("json_string")
+    outputColumns.add(rowId)
+    outputColumns.add(jsonString)
 
     val outputTypes = new ArrayList[ObjectInspector]()
     outputTypes.add(PrimitiveObjectInspectorFactory.javaIntObjectInspector)
