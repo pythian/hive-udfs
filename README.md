@@ -78,7 +78,7 @@ CREATE TEMPORARY FUNCTION json_map as 'com.pythian.hive.udf.JsonMapUDF';
 CREATE TABLE json_map_example (json string);
 LOAD DATA LOCAL INPATH 'demo/map_example.json' INTO TABLE json_map_example;
 
-SELECT json_map(json)['x'] FROM json_map_example LATERAL VIEW explode(json_split(json_example.json)) ex;
+SELECT json_map(json)['x'] FROM json_map_example LATERAL VIEW explode(array(json_map_example.json)) ex;
 ```
 
 The above converts the JSON string to a map, then pulls out the value for each record's key 'x'.

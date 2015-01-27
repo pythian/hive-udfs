@@ -4,7 +4,7 @@
 */
 package com.pythian.hive.udf
 
-import java.util.{GregorianCalendar, Calendar, Date}
+import java.util.{Calendar, Date, GregorianCalendar}
 
 import org.apache.hadoop.hive.ql.exec.UDF
 import org.apache.hadoop.io.LongWritable
