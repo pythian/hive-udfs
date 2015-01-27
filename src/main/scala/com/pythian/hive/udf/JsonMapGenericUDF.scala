@@ -11,6 +11,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector.Category
 import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.PrimitiveCategory
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.{PrimitiveObjectInspectorFactory, StringObjectInspector}
 import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory, PrimitiveObjectInspector}
+import play.api.libs.json._
 
 class JsonMapGenericUDF extends GenericUDF {
 
@@ -31,14 +32,9 @@ class JsonMapGenericUDF extends GenericUDF {
   override def evaluate(args: Array[DeferredObject]): AnyRef = {
     try {
       val jsonString: String = stringInspector.getPrimitiveJavaObject(args(0).get())
+      val jValue: JsValue = Json.parse(jsonString)
 
-      //START, can be broken off here and added to JsonUtil object
-
-      var map: HashMap[String, String] = new HashMap[String, String]()
-
-      //END
-
-      return "call to JsonMapGenericUDFSpec.evaluate(jsonString)"
+      return unpackJsonObject(jValue)
 
     } catch {
       case e: IOException => throw new HiveException(e)
@@ -49,4 +45,26 @@ class JsonMapGenericUDF extends GenericUDF {
   override def getDisplayString(args: Array[String]): String = {
     return "json_map(" + args(0) + ")"
   }
+
+  def unpackJsonObject(j: JsValue): HashMap[String, String] = j match {
+      case JsObject(fields) => processMap(fields.toMap)
+      case _ => throw new UDFArgumentException("Usage : json_map(jsonstring) ")
+  }
+
+  private def processMap(args: Map[String, JsValue]): HashMap[String, String] = {
+
+    val retMap: HashMap[String, String] = new HashMap[String, String]()
+
+    args foreach {
+      case (k, v) => retMap.put(k, getJsonString(v))
+    }
+    return retMap
+  }
+
+  // JsString types does not need explicit conversion
+  private def getJsonString(j: JsValue): String = j match {
+    case JsString(_) => j.asOpt[String].get
+    case _ => j.toString()
+  }
 }
+

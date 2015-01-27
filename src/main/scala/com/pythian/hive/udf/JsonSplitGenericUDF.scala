@@ -58,7 +58,7 @@ class JsonSplitGenericUDF extends GenericUDF {
     stringInspector = args(0).asInstanceOf[StringObjectInspector]
 
     val outputColumns: ArrayList[String] = new ArrayList[String]()
-    outputColumns.add("row_add")
+    outputColumns.add("row_id")
     outputColumns.add("json_string")
 
     val outputTypes = new ArrayList[ObjectInspector]()

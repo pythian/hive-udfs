@@ -1,9 +1,9 @@
 
 import java.text.SimpleDateFormat
 
-import com.pythian.udf.{CountBusinessDays, CountSaturdays, CountSundays}
+import com.pythian.hive.udf.{CountBusinessDays, CountSaturdays, CountSundays}
 import org.apache.hadoop.io.LongWritable
-import com.pythian.udf.DateUtils
+import com.pythian.hive.udf.DateUtils
 import org.scalatest._
 
 class UDFCountBusinessDaysSpec extends FlatSpec with Matchers {
