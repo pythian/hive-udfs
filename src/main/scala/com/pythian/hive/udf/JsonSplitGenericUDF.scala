@@ -3,7 +3,7 @@ package com.pythian.hive.udf
 import java.io.IOException
 import java.util.ArrayList
 
-import org.apache.hadoop.hive.ql.exec.UDFArgumentException
+import org.apache.hadoop.hive.ql.exec.{Description, UDFArgumentException}
 import org.apache.hadoop.hive.ql.metadata.HiveException
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF.DeferredObject
@@ -12,6 +12,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.Pr
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.{PrimitiveObjectInspectorFactory, StringObjectInspector}
 import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory, PrimitiveObjectInspector}
 
+@Description(name = "json_split", value = "_FUNC_(json) - Returns a array of JSON strings from a JSON Array")
 class JsonSplitGenericUDF extends GenericUDF {
 
   var stringInspector: StringObjectInspector = _

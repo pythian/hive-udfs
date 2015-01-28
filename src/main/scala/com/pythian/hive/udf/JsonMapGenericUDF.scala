@@ -3,7 +3,7 @@ package com.pythian.hive.udf
 import java.io.IOException
 import java.util.HashMap
 
-import org.apache.hadoop.hive.ql.exec.UDFArgumentException
+import org.apache.hadoop.hive.ql.exec.{Description, UDFArgumentException}
 import org.apache.hadoop.hive.ql.metadata.HiveException
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF.DeferredObject
@@ -13,6 +13,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.primitive.{PrimitiveObjectI
 import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory, PrimitiveObjectInspector}
 import play.api.libs.json._
 
+@Description(name="json_map", value = "_FUNC_(json) - Returns a map of key-value pairs from a JSON object")
 class JsonMapGenericUDF extends GenericUDF {
 
   var stringInspector: StringObjectInspector = _
