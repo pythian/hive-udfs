@@ -7,7 +7,7 @@ import play.api.libs.json.{Json, JsValue}
 
 class JsonMapGenericUDFSpec extends FlatSpec with Matchers {
 
-  "JsonMapGenericUDF" should "do a basic json object unpacking" in {
+  "JsonMapGenericUDF" should "unpack a simple json object" in {
 
     val udf = new JsonMapGenericUDF
     val map: HashMap[String, String] = new HashMap[String, String](){{ put("x", "1")}; { put("y", "2")}; { put("z", "3")}; }
@@ -18,5 +18,4 @@ class JsonMapGenericUDFSpec extends FlatSpec with Matchers {
     udf.unpackJsonObject(jValue) should be (map)
 
   }
-
 }

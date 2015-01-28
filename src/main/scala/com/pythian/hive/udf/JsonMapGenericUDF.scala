@@ -39,7 +39,7 @@ class JsonMapGenericUDF extends GenericUDF {
 
     } catch {
       case e: IOException => throw new HiveException(e)
-      case e: NullPointerException => null
+      case e: NullPointerException => throw new UDFArgumentException(e)
     }
   }
 

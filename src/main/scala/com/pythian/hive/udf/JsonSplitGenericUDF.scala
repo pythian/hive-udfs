@@ -24,14 +24,14 @@ class JsonSplitGenericUDF extends GenericUDF {
             throw new UDFArgumentException("Usage : json_split(jsonstring) ")
       }
 
-    val rowId = "row_id"
-    val jsonString = "json_string"
+    val RowId = "row_id"
+    val JsonString = "json_string"
 
     stringInspector = args(0).asInstanceOf[StringObjectInspector]
 
     val outputColumns: ArrayList[String] = new ArrayList[String]()
-    outputColumns.add(rowId)
-    outputColumns.add(jsonString)
+    outputColumns.add(RowId)
+    outputColumns.add(JsonString)
 
     val outputTypes = new ArrayList[ObjectInspector]()
     outputTypes.add(PrimitiveObjectInspectorFactory.javaIntObjectInspector)
@@ -49,7 +49,7 @@ class JsonSplitGenericUDF extends GenericUDF {
 
     } catch {
       case e: IOException => throw new HiveException(e)
-      case e: NullPointerException => null
+      case e: NullPointerException => throw new UDFArgumentException(e)
     }
   }
 
