@@ -16,6 +16,17 @@ class JsonMapGenericUDFSpec extends FlatSpec with Matchers {
     val jValue: JsValue = Json.parse(jString)
 
     udf.unpackJsonObject(jValue) should be (map)
+  }
+  
+  "JsonMapGenericUDF" should "unpack a nested json object" in {
+    
+    val udf = new JsonMapGenericUDF
+    val map: HashMap[String, String] = new HashMap[String, String](){{ put("x", "1")}; { put("y", "2")}; { put("z","{\"x\":1,\"y\":2}")}}
 
+    val jString: String = "{\"x\":1, \"y\":2, \"z\":{\"x\":1, \"y\":2}}"
+    val jValue: JsValue = Json.parse(jString)
+
+    udf.unpackJsonObject(jValue) should be (map)
+    
   }
 }
