@@ -35,7 +35,7 @@ CREATE TABLE business_days_example(
     FIELDS TERMINATED BY '\t'
     STORED AS TEXTFILE;
 
-LOAD  DATA  INPATH  'demo/business_days_example.txt' OVERWRITE INTO TABLE business_days_example;
+LOAD DATA LOCAL INPATH 'demo/business_days_example.txt' OVERWRITE INTO TABLE business_days_example;
 
 SELECT count_business_days(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) FROM business_days_example;
 ```
