@@ -28,7 +28,7 @@ class UDFCountBusinessDaysSpec extends FlatSpec with Matchers {
     counter.evaluate(startTimestamp, endTimestamp) should be (2)
   }
 
-  "CountBusinessDays" should "return 14 full business days between Jan 01, 2009 and Jan 23, 2009" in {
+  "CountBusinessDays" should "return 15 full business days between Jan 01, 2009 and Jan 23, 2009" in {
    // 1230786846 - 2009/01/01
    // 1232732202  - 2009/01/23
     val counter = new CountBusinessDays

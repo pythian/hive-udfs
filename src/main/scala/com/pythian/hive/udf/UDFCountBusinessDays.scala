@@ -6,8 +6,9 @@ package com.pythian.hive.udf
 
 import java.util.{Calendar, Date, GregorianCalendar}
 
-import org.apache.hadoop.hive.ql.exec.UDF
+import org.apache.hadoop.hive.ql.exec.{Description, UDF}
 import org.apache.hadoop.io.LongWritable
+
 
 object DateUtils {
   // Constant Sets for different types of days
@@ -73,18 +74,21 @@ object DateUtils {
 }
 
 /* Actual UDF class definitions. Notice that the only difference is the counter function we pass to countDays */
+@Description(name="count_business_days", value = "_FUNC_(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) - Returns the number of full business days between two given dates exclusive.")
 class CountBusinessDays extends UDF {
   def evaluate(startTimestamp: LongWritable, endTimestamp: LongWritable): Int = {
     DateUtils.countDays(startTimestamp, endTimestamp, DateUtils.isBusinessDay)
   }
 }
 
+@Description(name="count_saturdays", value = "_FUNC_(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) - Returns the number of full saturdays between two given dates exclusive.")
 class CountSaturdays extends UDF {
   def evaluate(startTimestamp: LongWritable, endTimestamp: LongWritable): Int = {
     DateUtils.countDays(startTimestamp, endTimestamp, DateUtils.isSaturday)
   }
 }
 
+@Description(name="json_map", value = "_FUNC_(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) - Returns the number of full sundays between two given dates exclusive.")
 class CountSundays extends UDF {
   def evaluate(startTimestamp: LongWritable, endTimestamp: LongWritable): Int = {
     DateUtils.countDays(startTimestamp, endTimestamp, DateUtils.isSunday)

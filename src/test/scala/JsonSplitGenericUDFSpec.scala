@@ -2,7 +2,6 @@
 import java.util.ArrayList
 
 import com.pythian.hive.udf.JsonSplitGenericUDF
-import org.scalamock.scalatest.proxy.MockFactory
 import org.scalatest._
 
 /**
@@ -15,7 +14,7 @@ output:
 {"row_id":2, "json_string":"Element 3"}]
 **/
 
-class JsonSplitGenericUDFSpec extends FlatSpec with Matchers with MockFactory {
+class JsonSplitGenericUDFSpec extends FlatSpec with Matchers {
 
       "JsonSplitGenericUDF" should " do a basic array test" in {
 

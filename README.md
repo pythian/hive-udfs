@@ -22,11 +22,22 @@ days between Monday and Wednesday would be 1.
 
 ```sql
 ADD JAR hdfs:///user/hive/udfs/pythian-hive-udfs-assembly-0.1.jar;
-CREATE TEMPORARY FUNCTION count_business_days AS 'com.pythian.udf.CountBusinessDays';
-CREATE TEMPORARY FUNCTION count_saturdays AS 'com.pythian.udf.CountSaturdays';
-CREATE TEMPORARY FUNCTION count_sundays AS 'com.pythian.udf.CountSundays';
+CREATE TEMPORARY FUNCTION count_business_days AS 'com.pythian.hive.udf.CountBusinessDays';
+CREATE TEMPORARY FUNCTION count_saturdays AS 'com.pythian.udf.hive.CountSaturdays';
+CREATE TEMPORARY FUNCTION count_sundays AS 'com.pythian.udf.hive.CountSundays';
 
-SELECT count_business_days(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) FROM some_table; 
+CREATE TABLE business_days_example(
+        start_date STRING,
+        end_date STRING,
+        description STRING)
+    COMMENT 'This is to test CountBusinessDays UDFs'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+    STORED AS TEXTFILE;
+
+LOAD  DATA  INPATH  'demo/business_days_example.txt' OVERWRITE INTO TABLE business_days_example;
+
+SELECT count_business_days(UNIX_TIMESTAMP(start_date), UNIX_TIMESTAMP(end_date)) FROM business_days_example;
 ```
 
 JsonSplit
