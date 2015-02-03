@@ -7,10 +7,8 @@ import org.apache.hadoop.hive.ql.exec.{Description, UDFArgumentException}
 import org.apache.hadoop.hive.ql.metadata.HiveException
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF.DeferredObject
-import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector.Category
-import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.PrimitiveCategory
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.{PrimitiveObjectInspectorFactory, StringObjectInspector}
-import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory, PrimitiveObjectInspector}
+import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory}
 import play.api.libs.json._
 
 @Description(name="json_map", value = "_FUNC_(json) - Returns a map of key-value pairs from a JSON object")
@@ -19,12 +17,9 @@ class JsonMapGenericUDF extends GenericUDF {
   var stringInspector: StringObjectInspector = _
 
   override def initialize(args: Array[ObjectInspector]): ObjectInspector = {
-
-    if (args.length != 1
-      || !args(0).getCategory().equals(Category.PRIMITIVE)
-      || args(0).asInstanceOf[PrimitiveObjectInspector].getPrimitiveCategory() != PrimitiveCategory.STRING) {
-      throw new UDFArgumentException("Usage : json_map(jsonstring) ")
-    }
+    
+    if(!HiveUDFUtils.validateGenericUDFInput(args)) { throw new UDFArgumentException("Usage : json_map(jsonstring) ") }
+    
     stringInspector = args(0).asInstanceOf[StringObjectInspector]
 
     ObjectInspectorFactory.getStandardMapObjectInspector(PrimitiveObjectInspectorFactory.javaStringObjectInspector,
@@ -56,7 +51,7 @@ class JsonMapGenericUDF extends GenericUDF {
     val retMap: HashMap[String, String] = new HashMap[String, String]()
 
     args foreach {
-      case (k, v) => retMap.put(k, JsonUtils.getJsonString(v))
+      case (k, v) => retMap.put(k, HiveUDFUtils.getJsonString(v))
     }
     retMap
   }

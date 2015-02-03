@@ -5,6 +5,18 @@ import com.pythian.hive.udf.JsonMapGenericUDF
 import org.scalatest._
 import play.api.libs.json.{Json, JsValue}
 
+/**
+Input:
+{"x":1, "y":2, "z":"3"}
+{"x":7, "y":12, "z":"a"}
+{"x":9, "y":21, "z":"b"}
+ 
+Output:
+{"z":"3","y":"2","x":"1"}
+{"z":"a","y":"12","x":"7"}
+{"z":"b","y":"21","x":"9"}
+ **/
+
 class JsonMapGenericUDFSpec extends FlatSpec with Matchers {
 
   "JsonMapGenericUDF" should "unpack a simple json object" in {

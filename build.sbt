@@ -22,6 +22,5 @@ libraryDependencies ++= Seq(
   "org.apache.hbase" % "hbase-common" % "0.98.+" % "provided",
   "org.codehaus.groovy" % "groovy-all" % "1.8.2",
   "com.typesafe.play" %% "play-json" % "2.3.4",
-  "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
   "org.scalatest" % "scalatest_2.11" % "2.1.6" % "test"
 )

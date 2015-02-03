@@ -86,7 +86,7 @@ The above converts the JSON string to a map, then pulls out the value for each r
 Contribute new UDFs
 ===================
 
-1. Write your udf in Scala or Java
+1. Write your UDF in Scala or Java
 2. Update the build.sbt with your dependencies
 3. Add source and tests to respective directories
 4. Update README with usage instructions for your UDF

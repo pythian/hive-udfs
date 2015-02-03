@@ -5,20 +5,15 @@ import com.pythian.hive.udf.JsonSplitGenericUDF
 import org.scalamock.scalatest.proxy.MockFactory
 import org.scalatest._
 
-/*
- *
-input: 
-
+/**
+input:
 ["Element 1", "Element 2", "Element 3"]
 
 output:
-[
-{"row_id":0, "json_string":"Element 1"},
+[{"row_id":0, "json_string":"Element 1"},
 {"row_id":1, "json_string":"Element 2"},
-{"row_id":2, "json_string":"Element 3"}
-]
-*
-*/
+{"row_id":2, "json_string":"Element 3"}]
+**/
 
 class JsonSplitGenericUDFSpec extends FlatSpec with Matchers with MockFactory {
 

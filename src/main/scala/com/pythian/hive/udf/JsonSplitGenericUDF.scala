@@ -7,10 +7,8 @@ import org.apache.hadoop.hive.ql.exec.{Description, UDFArgumentException}
 import org.apache.hadoop.hive.ql.metadata.HiveException
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF.DeferredObject
-import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector.Category
-import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector.PrimitiveCategory
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.{PrimitiveObjectInspectorFactory, StringObjectInspector}
-import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory, PrimitiveObjectInspector}
+import org.apache.hadoop.hive.serde2.objectinspector.{ObjectInspector, ObjectInspectorFactory}
 
 @Description(name = "json_split", value = "_FUNC_(json) - Returns a array of JSON strings from a JSON Array")
 class JsonSplitGenericUDF extends GenericUDF {
@@ -19,11 +17,7 @@ class JsonSplitGenericUDF extends GenericUDF {
 
   override def initialize(args: Array[ObjectInspector]): ObjectInspector = {
 
-    if(args.length != 1
-      || ! args(0).getCategory().equals(Category.PRIMITIVE)
-      || args(0).asInstanceOf[PrimitiveObjectInspector].getPrimitiveCategory() != PrimitiveCategory.STRING) {
-            throw new UDFArgumentException("Usage : json_split(jsonstring) ")
-      }
+    if(!HiveUDFUtils.validateGenericUDFInput(args)) { throw new UDFArgumentException("Usage : json_split(jsonstring) ") }
 
     val RowId = "row_id"
     val JsonString = "json_string"
@@ -56,6 +50,6 @@ class JsonSplitGenericUDF extends GenericUDF {
 
   override def getDisplayString(args: Array[String]) = "json_split(" + args(0) + ")"
 
-  def splitJsonString(jsonString: String): ArrayList[Array[Any]] = JsonUtils.processJsonString(jsonString)
+  def splitJsonString(jsonString: String): ArrayList[Array[Any]] = HiveUDFUtils.processJsonString(jsonString)
 
 }
