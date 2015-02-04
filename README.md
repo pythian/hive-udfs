@@ -57,7 +57,7 @@ SELECT ex.* FROM json_example LATERAL VIEW explode(json_split(json_example.json)
 
 ```json_split``` converts the string to the following array of structs, which are exploded into individual records: 
 
-```
+```json
 [
   {
     row_id:1, 

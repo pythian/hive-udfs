@@ -25,13 +25,9 @@ object HiveUDFUtils {
     val jsonArray: Array[JsValue] = optionArray.get
 
     // create an ArrayList of Arrays
-    val json: ArrayList[Array[Any]] = new ArrayList[Array[Any]]()
+    val json = jsonArray.zipWithIndex.toMap.map{ case (k, v) => Array[Any](v, HiveUDFUtils.getJsonString(k)) }
 
-    // fill the ArrayList with Arrays containing two items each, the row_id and json_string
-    jsonArray.zipWithIndex.toMap foreach {
-      case (k, v) => json += Array[Any](v, HiveUDFUtils.getJsonString(k))
-    }
-    json
+    new ArrayList[Array[Any]](json)
   }
   
   def validateGenericUDFInput(args: Array[ObjectInspector]): Boolean = {
