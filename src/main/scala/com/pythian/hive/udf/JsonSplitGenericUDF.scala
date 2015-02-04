@@ -16,7 +16,7 @@ class JsonSplitGenericUDF extends GenericUDF {
   var stringInspector: StringObjectInspector = _
 
   override def initialize(args: Array[ObjectInspector]): ObjectInspector = {
-
+    
     if(!HiveUDFUtils.validateGenericUDFInput(args)) { throw new UDFArgumentException("Usage : json_split(jsonstring) ") }
 
     val RowId = "row_id"
@@ -37,7 +37,6 @@ class JsonSplitGenericUDF extends GenericUDF {
   }
 
   override def evaluate(args: Array[DeferredObject]): AnyRef = {
-
     try {
       val jsonString: String = stringInspector.getPrimitiveJavaObject(args(0).get())
       splitJsonString(jsonString)
@@ -47,8 +46,8 @@ class JsonSplitGenericUDF extends GenericUDF {
       case e: NullPointerException => throw new UDFArgumentException(e)
     }
   }
-
-  override def getDisplayString(args: Array[String]) = "json_split(" + args(0) + ")"
+  
+  override def getDisplayString(args: Array[String]) = s"json_split( $args(0) )"
 
   def splitJsonString(jsonString: String): ArrayList[Array[Any]] = HiveUDFUtils.processJsonString(jsonString)
 

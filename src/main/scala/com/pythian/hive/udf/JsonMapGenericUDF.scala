@@ -39,7 +39,7 @@ class JsonMapGenericUDF extends GenericUDF {
     }
   }
 
-  override def getDisplayString(args: Array[String]) = "json_map(" + args(0) + ")"
+  override def getDisplayString(args: Array[String]) = s"json_map( $args(0) )"
 
   def unpackJsonObject(j: JsValue): HashMap[String, String] = j match {
     case JsObject(fields) => processMap(fields.toMap)
@@ -47,9 +47,7 @@ class JsonMapGenericUDF extends GenericUDF {
   }
 
   private def processMap(args: Map[String, JsValue]): HashMap[String, String] = {
-
     val retMap: HashMap[String, String] = new HashMap[String, String]()
-
     args foreach {
       case (k, v) => retMap.put(k, HiveUDFUtils.getJsonString(v))
     }

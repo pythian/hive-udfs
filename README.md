@@ -45,9 +45,9 @@ JsonSplit
 
 The split UDF accepts a single JSON string containing only an array. In the Hive CLI:
 
-```
+```sql
 ADD JAR target/JsonSplit-1.0-SNAPSHOT.jar;
-CREATE TEMPORARY FUNCTION json_split AS 'com.pythian.hive.udf.JsonSplitUDF';
+CREATE TEMPORARY FUNCTION json_split AS 'com.pythian.hive.udf.JsonSplitGenericUDF';
 
 CREATE TABLE json_example (json string);
 LOAD DATA LOCAL INPATH 'demo/split_example.json' INTO TABLE json_example;
@@ -82,9 +82,9 @@ JsonMap
 
 The map UDF accepts a flat JSON object (only integer and string values, no arrays or maps) and converts it into a Hive map. The elements of the map don't have to be defined until query-time, and can be accessed with the square bracket syntax ['key'].
 
-```
+```sql
 ADD JAR target/JsonSplit-1.0-SNAPSHOT.jar;
-CREATE TEMPORARY FUNCTION json_map as 'com.pythian.hive.udf.JsonMapUDF';
+CREATE TEMPORARY FUNCTION json_map as 'com.pythian.hive.udf.JsonMapGenericUDF';
 
 CREATE TABLE json_map_example (json string);
 LOAD DATA LOCAL INPATH 'demo/map_example.json' INTO TABLE json_map_example;

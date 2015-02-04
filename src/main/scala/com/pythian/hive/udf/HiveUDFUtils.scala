@@ -9,7 +9,6 @@ import play.api.libs.json._
 
 import scala.collection.JavaConversions._
 
-
 object HiveUDFUtils {
 
   def getJsonString(j: JsValue): String = j match {
@@ -29,17 +28,21 @@ object HiveUDFUtils {
     val json: ArrayList[Array[Any]] = new ArrayList[Array[Any]]()
 
     // fill the ArrayList with Arrays containing two items each, the row_id and json_string
-    for(i <- 0 until jsonArray.length) {
-      json += Array[Any](i, HiveUDFUtils.getJsonString(jsonArray(i)))
+    jsonArray.zipWithIndex.toMap foreach {
+      case (k, v) => json += Array[Any](v, HiveUDFUtils.getJsonString(k))
     }
-    return json
+    json
   }
   
   def validateGenericUDFInput(args: Array[ObjectInspector]): Boolean = {
-    if(args.length != 1
-      || ! args(0).getCategory().equals(Category.PRIMITIVE)
-      || args(0).asInstanceOf[PrimitiveObjectInspector].getPrimitiveCategory() != PrimitiveCategory.STRING) { false }
     
-    else true
+    val h: ObjectInspector = args.toList.headOption.getOrElse( return false )
+    val c: Category = h.getCategory()
+    val p: PrimitiveCategory = h.asInstanceOf[PrimitiveObjectInspector].getPrimitiveCategory()
+    
+    (c,p) match {
+      case (Category.PRIMITIVE, PrimitiveCategory.STRING) => true
+      case _  => false
+    }
   }
 }
